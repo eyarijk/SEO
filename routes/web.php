@@ -100,4 +100,6 @@ Route::post('/tasks/comment/create', 'TasksController@createcomment')->middlewar
 
 Route::post('/message/comment/create', 'MessageController@createcomment')->middleware('auth');
 
+Route::post('/surfing/valid', 'SurfingController@valid')->middleware('auth');
+
 Route::get('/cron/limit','CronController@limittask');

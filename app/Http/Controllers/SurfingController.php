@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
+use App\Context;
 use Illuminate\Http\Request;
 
 class SurfingController extends Controller
@@ -45,7 +47,11 @@ class SurfingController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = User::find(auth()->id());
+        $contexts = Context::inRandomOrder()->where('is_show',true)->limit(5)->get();
+        return view('surfing.show')
+            ->withUser($user)
+            ->withContexts($contexts);
     }
 
     /**
@@ -80,5 +86,15 @@ class SurfingController extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function valid(Request $request){
+        $first = $request->first;
+        $second = $request->second;
+        $total = $first + $second;
+        if ($total == $request->answer){
+            return "Серфинг оплачен! Деньги зачислены на баланс!";
+        } else {
+            return "False";
+        }
     }
 }
