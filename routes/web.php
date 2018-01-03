@@ -71,7 +71,11 @@ Route::prefix('manage')->middleware('auth')->group(function () {
     Route::post('/message/status/', 'MessageController@status');
     Route::post('/message/buy/', 'MessageController@buy');
     Route::post('/message/work', 'MessageController@work');
-
+    //Surfing
+    Route::get('/surfing','SurfingController@manage');
+    Route::get('/surfing/pay/{id}', 'SurfingController@pay')->name('surfingpay');
+    Route::post('/surfing/status/', 'SurfingController@status');
+    Route::post('/surfing/buy/', 'SurfingController@buy');
 });
 
 Route::get('/notifications/clear', 'NotificationController@clear')->name('clear')->middleware('auth');
@@ -86,7 +90,7 @@ Route::get('/rejected', 'TasksController@rejected')->middleware('auth');
 
 Route::get('/task/category/{slug}', 'TasksController@category')->name('taskcategory')->middleware('auth');
 
-Route::get('/comments/{slug}', 'TasksController@comments')->name('taskcomments')->middleware('auth');
+Route::get('/tasks/comments/{slug}', 'TasksController@comments')->name('taskcomments')->middleware('auth');
 
 Route::get('/message/comments/{slug}', 'MessageController@comments')->name('messagecomments')->middleware('auth');
 

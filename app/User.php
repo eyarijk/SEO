@@ -71,4 +71,12 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Checkedmessage');
     }
+    public function surfing()
+    {
+        return $this->hasMany('App\Surfing');
+    }
+    public function checkedsurfing()
+    {
+        return $this->hasMany('App\Checkedsurfing');
+    }
 }

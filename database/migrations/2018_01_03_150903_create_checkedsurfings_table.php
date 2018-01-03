@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSurfingsTable extends Migration
+class CreateCheckedsurfingsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,13 @@ class CreateSurfingsTable extends Migration
      */
     public function up()
     {
-        Schema::create('surfings', function (Blueprint $table) {
+        Schema::create('checkedsurfings', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned()->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->string('name');
-            $table->string('slug');
-            $table->string('url');
-            $table->integer('time');
-            $table->decimal('salary',8,3)->default(0.035);
-            $table->integer('available')->default(0);
-            $table->boolean('window')->default(false);
-            $table->boolean('is_show')->default(false);
+            $table->integer('surfing_id')->unsigned();
+            $table->foreign('surfing_id')->references('id')->on('surfings')->onDelete('cascade');
+            $table->string('status');
             $table->timestamps();
         });
     }
@@ -36,6 +31,6 @@ class CreateSurfingsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('surfings');
+        Schema::dropIfExists('checkedsurfings');
     }
 }

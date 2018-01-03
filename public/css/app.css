@@ -17776,3 +17776,14 @@ label.panel-block:hover {
   cursor: pointer;
 }
 
+.timer-surfing {
+  background-color: #3273dc;
+  color: #fff;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  font-size: 28px;
+  padding-left: 8px;
+  padding-top: 3px;
+}
+

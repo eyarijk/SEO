@@ -221,8 +221,6 @@ class MessageController extends Controller
         if(!isset($message))
             return redirect('/manage/message/');
         $contexts = Context::inRandomOrder()->where('is_show',true)->limit(5)->get();
-        if($message->user_id != auth()->id())
-            return redirect('/manage/message/');
 
         return view('manage.message.pay')->withUser($user)->withMessage($message)->withContexts($contexts);
     }
@@ -294,7 +292,6 @@ class MessageController extends Controller
         return redirect()->back();
     }
     public function comments($slug){
-
         $user = User::find(auth()->id());
         $message = Message::where('slug',$slug)->first();
         $contexts = Context::inRandomOrder()->where('is_show',true)->limit(5)->get();

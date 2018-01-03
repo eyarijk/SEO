@@ -12,7 +12,7 @@
             </div>
             <div class="navbar-menu">
                 <div class="navbar-start">
-                    <a class="navbar-item is-tab {{ Nav::isRoute('tasks.index') }}" href="{{route('tasks.index')}}">Заработать</a>
+                    <a class="navbar-item is-tab {{ Nav::isRoute('tasks.index') }} {{ Nav::isRoute('surfing.index') }} {{ Nav::isRoute('message.index') }}" href="{{route('tasks.index')}}">Заработать</a>
                     <a class="navbar-item is-tab">Форум</a>
                     <a class="navbar-item is-tab">Выплаты</a>
                     <a href="/rules" class="navbar-item is-tab">Правила</a>
@@ -25,7 +25,7 @@
                         <a href="{{route('register')}}" class="navbar-item is-tab" {{ Nav::isRoute('register') }}>Регистрация</a>
                     @else
                         <div class="navbar-item has-dropdown is-hoverable">
-                            <a class="navbar-link"><i class="fa fa-user-circle-o m-r-5"></i> Hey {{Auth::user()->name}} ({{$user->notification()->count() + $user->tasks()->count()}})</a>
+                            <a class="navbar-link"><i class="fa fa-user-circle-o m-r-5"></i> Hey {{Auth::user()->name}} ({{$user->notification()->count()}})</a>
                             <div class="navbar-dropdown is-right" >
                                 <a href="/profile" class="navbar-item">
                                     <span class="icon">
@@ -40,7 +40,7 @@
                                 <a href="/manage/tasks" class="navbar-item">
                                     <span class="icon">
                                       <i class="fa fa-cart-plus  m-r-5"></i>
-                                    </span>Реклама ({{$user->tasks()->count()}})
+                                    </span>Реклама
                                 </a>
                                 <a href="" class="navbar-item">
                                     <span class="icon">

@@ -8,11 +8,16 @@
             @endif
         </div>
         <div class="column is-three-fifths">
-            <div id="timer_inp">1</div>
+            Перейдите по ссылке и дождитесь окончания таймера:
+            <a href="{{$surfing->url}}">{{$surfing->url}}</a>
+            <hr class="time-hr">
+            <a href="http://www.fastprom.net/?ref=413894" target="_blank"><img src="http://www.fastprom.net/style/img/fpbanner2.png" width="468" height="60" border="0" alt="Fast Promotion - Всё для максимальной раскрутки!" /></a>
+            <div style="float: left;" class="timer-surfing m-r-10" id="timer_inp">{{$surfing->time}}</div>
             <form id="validation" method="post" action="/surfing/valid">
                 {{csrf_field()}}
                 <input type="hidden" name="first" id="first">
                 <input type="hidden" name="second" id="second">
+                <input type="hidden" name="id" value="{{$surfing->id}}">
                 <div style="display: none;" id="valid">
                     <div class="field has-addons">
                         <div class="control">
@@ -36,15 +41,18 @@
         var first;
         var second;
         var total;
+        var json;
         function timer(){
             var obj=document.getElementById('timer_inp');
             obj.innerHTML--;
+            if (obj.innerHTML < 10)
+                $('#timer_inp').css('padding-left', '17.5px');
             if(obj.innerHTML==0){
                 first =  Math.floor(Math.random()*10);
                 $("#first").val(first);
                 second = Math.floor(Math.random()*10);
                 $("#second").val(second);
-                total = first + ' + ' + second + ' =';
+                total = 'Вопрос: ' + first + ' + ' + second + ' ?';
                 $('#valid').attr('style', '');
                 $('#answer').attr('placeholder', total);
                 $('#timer_inp').attr('style', 'display:none');
@@ -67,7 +75,13 @@
                     url: '/surfing/valid',
                     data: $('#validation').serialize(),
                     success: function(result){
-                        alert(result);
+                        json = JSON.parse(result);
+                        if (json['window'])
+                            window.open('{{$surfing->url}}');
+                        if (json['status'] == 'success')
+                            alert('Серфинг онлачен! + {{$surfing->salary}} ₽');
+                        else if (json['status'] == 'danger')
+                            alert('Серфинг не онлачен!');
                         location.href = '/surfing';
                     }
                 });
