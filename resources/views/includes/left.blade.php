@@ -16,7 +16,7 @@
         <a class="{{ Nav::isRoute('message.create') }}" href="{{route('message.create')}}">Письма</a>
         <a class="{{ Nav::isRoute('tasks.create') }}" href="{{route('tasks.create')}}">Задания</a>
         <a class="{{ Nav::isRoute('contexts.create') }}" href="{{route('contexts.create')}}">Контекстная реклама</a>
-        <a>Банер</a>
+        <a class="{{ Nav::isRoute('banner.create') }}" href="{{route('banner.create')}}">Банер</a>
         </ul>
     </li>
     <hr class="time-hr">

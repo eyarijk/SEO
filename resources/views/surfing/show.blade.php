@@ -11,7 +11,7 @@
             Перейдите по ссылке и дождитесь окончания таймера:
             <a href="{{$surfing->url}}">{{$surfing->url}}</a>
             <hr class="time-hr">
-            <a href="http://www.fastprom.net/?ref=413894" target="_blank"><img src="http://www.fastprom.net/style/img/fpbanner2.png" width="468" height="60" border="0" alt="Fast Promotion - Всё для максимальной раскрутки!" /></a>
+            <a href="/banner/redirect/{{$banner->id}}" target="_blank"><img src="{{asset('images/banner/'.$banner->image)}}" width="468" height="60" border="0" alt="{{$banner->name}}" /></a>
             <div style="float: left;" class="timer-surfing m-r-10" id="timer_inp">{{$surfing->time}}</div>
             <form id="validation" method="post" action="/surfing/valid">
                 {{csrf_field()}}

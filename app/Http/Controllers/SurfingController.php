@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Banner;
 use App\Checkedsurfing;
 use App\Surfing;
 use App\User;
@@ -109,11 +110,13 @@ class SurfingController extends Controller
         if (isset($valid)){
             return redirect('/surfing');
         }
+        $banner = Banner::inRandomOrder()->where('is_show',true)->limit(1)->first();
         $contexts = Context::inRandomOrder()->where('is_show',true)->limit(5)->get();
         return view('surfing.show')
             ->withUser($user)
             ->withContexts($contexts)
-            ->withSurfing($surfing);
+            ->withSurfing($surfing)
+            ->withBanner($banner);
     }
 
     /**
@@ -325,6 +328,6 @@ class SurfingController extends Controller
         $notification->save();
 
         return redirect('/manage/surfing');
-
     }
+
 }

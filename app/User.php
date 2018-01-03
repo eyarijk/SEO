@@ -79,4 +79,8 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Checkedsurfing');
     }
+    public function banner()
+    {
+        return $this->hasMany('App\Banner');
+    }
 }

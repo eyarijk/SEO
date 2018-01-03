@@ -51,6 +51,8 @@ Route::resource('/comments', 'CommentsController')->middleware('auth');
 
 Route::resource('/surfing', 'SurfingController')->middleware('auth');
 
+Route::resource('/banner', 'BannerController')->middleware('auth');
+
 Route::prefix('manage')->middleware('auth')->group(function () {
     //Task
     Route::get('/tasks','ManagetaskController@task');
@@ -76,6 +78,11 @@ Route::prefix('manage')->middleware('auth')->group(function () {
     Route::get('/surfing/pay/{id}', 'SurfingController@pay')->name('surfingpay');
     Route::post('/surfing/status/', 'SurfingController@status');
     Route::post('/surfing/buy/', 'SurfingController@buy');
+    //Banner
+    Route::get('/banner/','BannerController@manage')->middleware('auth');
+    Route::get('/banner/pay/{id}', 'BannerController@pay')->name('bannerpay');
+    Route::post('/banner/status/', 'BannerController@status');
+    Route::post('/banner/buy/', 'BannerController@buy');
 });
 
 Route::get('/notifications/clear', 'NotificationController@clear')->name('clear')->middleware('auth');
@@ -93,6 +100,8 @@ Route::get('/task/category/{slug}', 'TasksController@category')->name('taskcateg
 Route::get('/tasks/comments/{slug}', 'TasksController@comments')->name('taskcomments')->middleware('auth');
 
 Route::get('/message/comments/{slug}', 'MessageController@comments')->name('messagecomments')->middleware('auth');
+
+Route::get('/banner/redirect/{id}','BannerController@redirectbanner')->middleware('auth');
 
 Route::post('/tasks/id','TasksController@searchid')->middleware('auth');
 
