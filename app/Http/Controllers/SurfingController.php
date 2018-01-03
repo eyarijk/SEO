@@ -23,7 +23,7 @@ class SurfingController extends Controller
         $notIn = $user->checkedsurfing()->get();
         if (count($notIn) > 0 )
             foreach ($notIn as $val)
-                $not_show[] = $val->id;
+                $not_show[] = $val->surfing_id;
         else
             $not_show[] = 0;
 
@@ -102,8 +102,11 @@ class SurfingController extends Controller
     {
         $user = User::find(auth()->id());
         $surfing = Surfing::where('slug',$slug)->where('is_show',true)->first();
-        $valid = $user->checkedsurfing()->find($surfing->id);
-        if (!isset($surfing) or isset($valid)){
+        if (!isset($surfing)){
+            return redirect('/surfing');
+        }
+        $valid = $user->checkedsurfing()->where('surfing_id',$surfing->id)->first();
+        if (isset($valid)){
             return redirect('/surfing');
         }
         $contexts = Context::inRandomOrder()->where('is_show',true)->limit(5)->get();
