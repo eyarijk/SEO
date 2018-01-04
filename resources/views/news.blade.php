@@ -31,11 +31,14 @@
                                                 </div>
                                                 <nav class="level is-mobile">
                                                     <div class="level-left">
+                                                        @if(auth()->id())
                                                         <form method="post" name="like-{{$message->id}}" action="/posts/like">
                                                             {{csrf_field()}}
                                                             <input type="hidden" name="id" value="{{$message->id}}">
                                                         </form>
-                                                        <a onclick="forms['like-{{$message->id}}'].submit();" class="level-item">
+                                                        @else
+                                                        @endif
+                                                        <a  @if (auth()->id()) onclick="forms['like-{{$message->id}}'].submit();"@else  @endif class="level-item">
                                                             <span class="icon is-small"><i class="fa fa-heart m-r-5"></i><span>{{$message->likepost->count()}}</span></span>
                                                         </a>
                                                     </div>
