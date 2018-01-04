@@ -116,3 +116,14 @@ Route::post('/message/comment/create', 'MessageController@createcomment')->middl
 Route::post('/surfing/valid', 'SurfingController@valid')->middleware('auth');
 
 Route::get('/cron/limit','CronController@limittask');
+
+
+//Admin
+Route::prefix('admin')->middleware('role:superadministrator|administrator|editor|supporter')->group(function () {
+    Route::get('/','ManageController@index')->name('manage.index');
+    Route::get('/dashboard','ManageController@dashboard')->name('manage.dashboard');
+    Route::resource('/users','UserController')->middleware('role:superadministrator|administrator');
+    Route::resource('/permissions','PermissionsController',['except' => 'destroy'])->middleware('role:superadministrator');
+    Route::resource('/roles','RoleController',['except' => 'destroy'])->middleware('role:superadministrator');
+    Route::resource('/posts','PostController')->middleware('role:superadministrator|administrator|editor');
+});

@@ -112,11 +112,13 @@ class SurfingController extends Controller
         }
         $banner = Banner::inRandomOrder()->where('is_show',true)->limit(1)->first();
         $contexts = Context::inRandomOrder()->where('is_show',true)->limit(5)->get();
+        $html = file_get_contents($surfing->url);
         return view('surfing.show')
             ->withUser($user)
             ->withContexts($contexts)
             ->withSurfing($surfing)
-            ->withBanner($banner);
+            ->withBanner($banner)
+            ->withHtml($html);
     }
 
     /**

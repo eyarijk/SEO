@@ -53,6 +53,14 @@
                                       <i class="fa fa-fw fa-cog m-r-5"></i>
                                     </span>Настройки
                                 </a>
+                                @role('superadministrator|administrator|editor|supporter')
+                                <hr class="navbar-divider">
+                                <a href="{{route('manage.index')}}" class="navbar-item">
+                                    <span class="icon">
+                                      <i class="fa fa-lock m-r-5"></i>
+                                    </span>Админ панель
+                                </a>
+                                @endrole
                                 <hr class="navbar-divider">
                                 <a href="{{route('logout')}}" class="navbar-item" onclick="event.preventDefault();
                                      document.getElementById('logout-form').submit();">

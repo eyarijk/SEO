@@ -7,6 +7,7 @@
                 @include('includes.left')
             @endif
         </div>
+        {!! $html !!}
         <div class="column is-three-fifths">
             Перейдите по ссылке и дождитесь окончания таймера:
             <a href="{{$surfing->url}}">{{$surfing->url}}</a>
