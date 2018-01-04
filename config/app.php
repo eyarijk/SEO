@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'SEO'),
 
     /*
     |--------------------------------------------------------------------------
@@ -180,6 +180,7 @@ return [
         //  other providers
 
         DevMarketer\EasyNav\EasyNavServiceProvider::class,
+        Laratrust\LaratrustServiceProvider::class,
     ],
 
     /*
@@ -231,6 +232,7 @@ return [
         // other aliases
 
         'Nav' => DevMarketer\EasyNav\EasyNavFacade::class,
+        'Laratrust'   => Laratrust\LaratrustFacade::class,
     ],
 
 ];

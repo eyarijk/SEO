@@ -14,6 +14,7 @@
                 <div class="navbar-start">
                     <a class="navbar-item is-tab {{ Nav::isRoute('tasks.index') }} {{ Nav::isRoute('surfing.index') }} {{ Nav::isRoute('message.index') }}" href="{{route('tasks.index')}}">Заработать</a>
                     <a class="navbar-item is-tab">Форум</a>
+                    <a class="navbar-item is-tab">Новости</a>
                     <a class="navbar-item is-tab">Выплаты</a>
                     <a href="/rules" class="navbar-item is-tab">Правила</a>
                     <a href="/contact" class="navbar-item is-tab">Контакты</a>
