@@ -25,11 +25,11 @@
                     </p>
                     <p class="card-header-title">
                         <i class="fa fa-check" aria-hidden="true"></i>
-                        <span class="m-l-5"> Одобрено: {{$message->success}} /</span>
+                        <span class="m-l-5"> : {{$message->success}} /</span>
                         <i class="fa fa-times m-l-5" aria-hidden="true"></i>
-                        <time class="m-l-5">Отклонено: {{$message->danger}} /</time>
+                        <time class="m-l-5"> : {{$message->danger}} /</time>
                         <i class="fa fa-comments-o m-l-5" aria-hidden="true"></i>
-                        <time class="m-l-5">Отзывы: <a href="{{route('messagecomments',$message->slug)}}">{{$message->comments->count()}}</a></time>
+                        <time class="m-l-5"> : <a href="{{route('messagecomments',$message->slug)}}">{{$message->comments->count()}}</a></time>
                     </p>
                 </header>
                 <div class="card-content">

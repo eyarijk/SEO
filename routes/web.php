@@ -19,11 +19,15 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/contact', 'Ajax\ContactController@show');
+Route::get('/contact', 'Ajax\ContactController@show')->name('contact');
 
-Route::get('/rules','StatisController@rules');
+Route::get('/rules','StatisController@rules')->name('rules');
+
+Route::get('/news','PostController@news')->name('news');
 
 Route::get('/profile','ProfileController@show')->middleware('auth');
+
+Route::post('/posts/like','PostController@like')->middleware('auth');
 
 Route::post('/avatar','ProfileController@avatar')->middleware('auth');
 
@@ -122,6 +126,11 @@ Route::get('/cron/limit','CronController@limittask');
 Route::prefix('admin')->middleware('role:superadministrator|administrator|editor|supporter')->group(function () {
     Route::get('/','ManageController@index')->name('manage.index');
     Route::get('/dashboard','ManageController@dashboard')->name('manage.dashboard');
+    Route::get('/contact','Ajax\ContactController@admin')->name('contact.admin');
+    Route::get('/contact/{id}','Ajax\ContactController@details')->name('contact.details');
+    Route::post('/contact/answer','Ajax\ContactController@answer');
+    Route::post('/contact/delete','Ajax\ContactController@delete');
+    Route::post('/posts/status','PostController@status')->middleware('role:superadministrator|administrator|editor');
     Route::resource('/users','UserController')->middleware('role:superadministrator|administrator');
     Route::resource('/permissions','PermissionsController',['except' => 'destroy'])->middleware('role:superadministrator');
     Route::resource('/roles','RoleController',['except' => 'destroy'])->middleware('role:superadministrator');

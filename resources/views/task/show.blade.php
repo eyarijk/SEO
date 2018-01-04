@@ -33,11 +33,11 @@
                     </p>
                     <p class="card-header-title">
                         <i class="fa fa-check" aria-hidden="true"></i>
-                        <span class="m-l-5"> Одобрено: {{$task->success}} /</span>
+                        <span class="m-l-5"> : {{$task->success}} /</span>
                         <i class="fa fa-times m-l-5" aria-hidden="true"></i>
-                        <time class="m-l-5">Отклонено: {{$task->danger}} /</time>
+                        <time class="m-l-5"> : {{$task->danger}} /</time>
                         <i class="fa fa-comments-o m-l-5" aria-hidden="true"></i>
-                        <time class="m-l-5">Отзывы: <a href="{{route('taskcomments',$task->slug)}}">{{$task->comments->count()}}</a></time>
+                        <time class="m-l-5"> : <a href="{{route('taskcomments',$task->slug)}}">{{$task->comments->count()}}</a></time>
                     </p>
                 </header>
                 <div class="card-content">

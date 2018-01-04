@@ -85,4 +85,8 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Banner');
     }
+    public function likepost()
+    {
+        return $this->belongsToMany('App\Post', 'post_user');
+    }
 }

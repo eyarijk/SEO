@@ -5,13 +5,10 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Http\Request;
 use App\Post;
+use App\Context;
 
 class PostController extends Controller
 {
-    public function __construct()
-    {
-      $this->middleware('role:superadministrator|administrator|editor|author|contributor');
-    }
     /**
      * Display a listing of the resource.
      *
@@ -20,7 +17,8 @@ class PostController extends Controller
     public function index()
     {
         $user = User::find(auth()->id());
-        return view('admin.posts.index')->withUser($user);
+        $posts = Post::orderBy('created_at','desc')->paginate(5);
+        return view('admin.posts.index')->withUser($user)->withPosts($posts);
     }
 
     /**
@@ -42,7 +40,18 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, array(
+            'name' => 'required|max:100|min:5',
+            'description' => 'required|min:10|max:3000',
+        ));
+        $post = new Post;
+        $post->title = $request->name;
+        $post->slug = date('U').'-'.str_slug($request->name);
+        $post->content = $request->description;
+        $post->author_id = auth()->id();
+        $post->save();
+
+        return redirect('/admin/posts');
     }
 
     /**
@@ -87,10 +96,45 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $post = Post::findOrFail($id);
+        $post->delete();
+        return redirect()->back();
     }
-    public function apiCheckUnique(Request $request)
+    public function status(Request $request)
     {
-      return json_encode(!Post::where('slug','=',$request->slug)->exists());
+        $post = Post::findOrFail($request->id);
+
+        if ($post->is_show == false)
+            $post->is_show = true;
+        else
+            $post->is_show = false;
+
+        $post->save();
+
+        return redirect()->back();
+    }
+    public function news()
+    {
+        $posts = Post::where('is_show',true)->orderBy('created_at','desc')->paginate(10);
+        $user = User::find(auth()->id());
+        $contexts = Context::inRandomOrder()->where('is_show',true)->limit(5)->get();
+        return view('news')->withUser($user)->withPosts($posts)->withContexts($contexts);
+    }
+    public function like(Request $request)
+    {
+        $this->validate($request, array(
+            'id' => 'required|numeric',
+        ));
+
+        $like_post = User::find(auth()->id());
+
+        if ($like_post->likepost()->find($request->id)){
+            $like_post->likepost()->detach($request->id);
+        } else {
+            $like_post->likepost()->attach($request->id);
+        }
+
+        return redirect('/news');
+
     }
 }

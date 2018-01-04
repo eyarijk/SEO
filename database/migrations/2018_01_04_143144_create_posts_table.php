@@ -18,12 +18,9 @@ class CreatePostsTable extends Migration
             $table->string('slug')->unique();
             $table->integer('author_id')->unsigned();
             $table->string('title');
-            $table->text('excerpt');
             $table->longText('content');
-            $table->integer('status')->default(1);
-            $table->integer('type')->unsigned()->default(1);
-            $table->bigInteger('comment_count')->unsigned();
-            $table->dateTime('published_at');
+            $table->boolean('is_show')->default(false);
+            $table->dateTime('published_at')->nullable();
             $table->timestamps();
             $table->foreign('author_id')->references('id')->on('users')->onDelete('cascade');
         });

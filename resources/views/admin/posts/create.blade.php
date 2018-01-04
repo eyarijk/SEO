@@ -14,11 +14,11 @@
       <div class="columns">
         <div class="column is-three-quarters-desktop">
           <b-field>
-            <b-input type="text" placeholder="Название статьи" size="is-large" v-model="title">
+            <b-input type="text" placeholder="Название статьи" name="name" size="is-large">
             </b-input>
           </b-field>
           <b-field class="m-t-40">
-            <b-input type="textarea"
+            <b-input id="description" name="description" type="textarea"
                 placeholder="Описание..." rows="20">
             </b-input>
           </b-field>
@@ -48,11 +48,8 @@
               </div>
             </div>
             <div class="publish-buttons-widget widget-area">
-              <div class="secondary-action-button">
-                <button class="button is-info is-outlined is-fullwidth">Save</button>
-              </div>
               <div class="primary-action-button">
-                <button class="button is-primary is-fullwidth">Публиковать</button>
+                <button class="button is-primary is-fullwidth">Сохранить</button>
               </div>
             </div>
           </div>

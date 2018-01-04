@@ -181,6 +181,7 @@ return [
 
         DevMarketer\EasyNav\EasyNavServiceProvider::class,
         Laratrust\LaratrustServiceProvider::class,
+        Unisharp\Ckeditor\ServiceProvider::class,
     ],
 
     /*
