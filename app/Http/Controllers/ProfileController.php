@@ -34,7 +34,7 @@ class ProfileController extends Controller
 
             $user->avatar = $filename;
             $user->save();
-            return redirect('/profile');
+            return redirect()->route('profile')->withToaststatus('success')->withToast('Аватар обновлен!');
         }
     }
     public function update(Request $request){
@@ -52,7 +52,7 @@ class ProfileController extends Controller
             $valid = User::where('email',$request->email)->first();
 
             if(isset($valid)){
-                return redirect('/profile');
+                return redirect()->route('profile')->withToaststatus('error')->withToast('E-Mail: '.$request->email.' занят!');;
             }
 
             $user->email = $request->email;
@@ -65,7 +65,7 @@ class ProfileController extends Controller
             ));
 
             if ($request->newpassword != $request->renewpassword){
-                return redirect('/profile');
+                return redirect()->route('profile')->withToaststatus('error')->withToast('Новые пароли не совпадают!');
             }
 
             $user->password = bcrypt($request->newpassword);
@@ -80,7 +80,7 @@ class ProfileController extends Controller
                     $valid_webmoney = strtoupper(substr($request->webmoney,0,1));
 
                     if ($valid_webmoney != 'R'){
-                        return redirect('/profile');
+                        return redirect()->route('profile')->withToaststatus('error')->withToast('Кошелёк должен быть в формате: Rxxxxxxxxxxxx');
                     }
 
                     $valid_webmoney_in_db = Purse::where('purse',$request->webmoney)
@@ -88,7 +88,7 @@ class ProfileController extends Controller
                         ->where('id','not',auth()->id())
                         ->first();
                     if (isset($valid_webmoney_in_db)){
-                        return redirect('/profile');
+                        return redirect()->route('profile')->withToaststatus('error')->withToast('Кошелёк занят!');
                     }
 
                     $webmoney = $user->purse->where('name','webmoney')->first();
@@ -112,7 +112,8 @@ class ProfileController extends Controller
                     ->where('id','not',auth()->id())
                     ->first();
                 if (isset($valid_yandex_in_db)){
-                    return redirect('/profile');
+                    return redirect()->route('profile')->withToaststatus('error')->withToast('Кошелёк занят!');
+
                 }
 
                 $yandex = $user->purse->where('name','yandex')->first();
@@ -133,7 +134,7 @@ class ProfileController extends Controller
                 ));
                 $valid_qiwi = substr($request->qiwi,0,1);
                 if ($valid_qiwi != '+'){
-                    return redirect('/profile');
+                    return redirect()->route('profile')->withToaststatus('error')->withToast('Кошелёк должен быть в формате: +123456789012!');
                 }
 
                 $valid_qiwi_in_db = Purse::where('purse',$request->qiwi)
@@ -141,7 +142,8 @@ class ProfileController extends Controller
                     ->where('id','not',auth()->id())
                     ->first();
                 if (isset($valid_qiwi_in_db)){
-                    return redirect('/profile');
+                    return redirect()->route('profile')->withToaststatus('error')->withToast('Кошелёк занят!');
+
                 }
 
                 $qiwi = $user->purse->where('name','qiwi')->first();
@@ -160,7 +162,7 @@ class ProfileController extends Controller
         }
 
         $user->save();
-        return redirect('/profile');
+        return redirect()->route('profile')->withToaststatus('success')->withToast('Сохранено!');
 
     }
 }

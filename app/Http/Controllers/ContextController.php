@@ -53,7 +53,7 @@ class ContextController extends Controller
         $context->url = $request->url;
         $context->save();
 
-        return redirect('/manage/contexts');
+        return redirect()->route('contexts.index')->withToaststatus('success')->withToast('Контекстная реклама добавлена!');
     }
 
     /**
@@ -107,7 +107,7 @@ class ContextController extends Controller
         $context->url = $request->url;
         $context->save();
 
-        return redirect('/manage/contexts');
+        return redirect()->route('contexts.index')->withToaststatus('success')->withToast('Контекстная реклама отредактирована!');
     }
 
     /**
@@ -122,7 +122,7 @@ class ContextController extends Controller
         $context->user->balance += $context->available * 0.2;
         $context->user->save();
         $context->delete();
-        return redirect()->back();
+        return redirect()->back()->withToaststatus('success')->withToast('Контекстная реклама удалена!');
     }
 
     public function status(Request $request)
@@ -133,13 +133,13 @@ class ContextController extends Controller
             if ($context->available > 0)
                 $context->is_show = true;
             else
-                return redirect()->back()->withErrors('Пополните баланс');
+                return redirect()->back()->withToaststatus('info')->withToast('Пополните баланс!');
         else
             $context->is_show = false;
 
         $context->save();
 
-        return redirect()->back();
+        return redirect()->back()->withToaststatus('success')->withToast('Статус изменен!');
     }
 
     public function pay($id)
@@ -165,7 +165,7 @@ class ContextController extends Controller
         $price = $request->count * 0.2;
 
         if ($user->balance < $price)
-            return redirect()->back();
+            return redirect()->back()->withToaststatus('info')->withToast('Недостаточно средств на балансе!');
 
         $user->balance -= $price;
         $context->available += $request->count;
@@ -179,7 +179,7 @@ class ContextController extends Controller
         $notification->status = 'is-primary';
         $notification->save();
 
-        return redirect('/manage/contexts');
+        return redirect()->route('contexts.index')->withToaststatus('success')->withToast('Баланс пополнен!');
 
     }
 

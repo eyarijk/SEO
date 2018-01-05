@@ -22,7 +22,7 @@
           </header>
           <div class="card-content">
             <div class="content">
-              {{str_limit($post->content,10)}}
+              {{str_limit($post->content,250)}}
               <br>
               <time>Создано: {{$post->created_at->diffForHumans()}}</time>
             </div>

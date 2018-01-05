@@ -65,10 +65,9 @@ class UserController extends Controller
         $user->email = $request->email;
         $user->password = Hash::make($password);
         if($user->save()){
-          return redirect()->route('users.show',$user->id);
+          return redirect()->route('users.show',$user->id)->withToaststatus('success')->withToast('Пользователь создан!');
         }else{
-          Session::flash('danger','Sorry a problem occured while creating this user.');
-          return redirect()->route('users.create');
+          return redirect()->route('users.create')->withToaststatus('error')->withToast('Ошибка!');
         }
     }
 
@@ -129,10 +128,9 @@ class UserController extends Controller
         $user->password = Hash::make($request->password);
       }
       $user->save();
-
       $user->syncRoles(explode(',',$request->roles));
 
-      return redirect()->route('users.show',$id);
+      return redirect()->route('users.show',$id)->withToaststatus('success')->withToast('Пользователь отредактирован!');
 
 
 

@@ -85,12 +85,16 @@ class NotificationController extends Controller
      */
     public function destroy($id)
     {
-        Notification::find($id)->delete();
-        return redirect()->back();
+        $notification = Notification::where('id',$id)->where('user_id',auth()->id())->first();
+        if (!isset($notification))
+            return redirect()->back()->withToaststatus('error')->withToast('Оповещения не найдено!');
+        $notification->delete();
+
+        return redirect()->back()->withToaststatus('success')->withToast('Оповещение удалено!');
     }
     public function clear()
     {
         Notification::where('user_id',auth()->id())->delete();
-        return redirect()->back();
+        return redirect()->back()->withToaststatus('success')->withToast('Оповещения очищены!');
     }
 }

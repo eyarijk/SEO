@@ -90,7 +90,7 @@ class SurfingController extends Controller
         $surfing->window = $request->window;
         $surfing->save();
 
-        return redirect('/manage/surfing');
+        return redirect()->route('surfingmanage')->withToaststatus('success')->withToast('Серфинг создан!');
     }
 
     /**
@@ -112,13 +112,11 @@ class SurfingController extends Controller
         }
         $banner = Banner::inRandomOrder()->where('is_show',true)->limit(1)->first();
         $contexts = Context::inRandomOrder()->where('is_show',true)->limit(5)->get();
-        $html = file_get_contents($surfing->url);
         return view('surfing.show')
             ->withUser($user)
             ->withContexts($contexts)
             ->withSurfing($surfing)
-            ->withBanner($banner)
-            ->withHtml($html);
+            ->withBanner($banner);
     }
 
     /**
@@ -180,7 +178,7 @@ class SurfingController extends Controller
         elseif($request->time == 60)
             $salary += 0.008;
         else
-            return redirect()->back();
+            return redirect()->back()->withToaststatus('error')->withToast('Ошибка!');
 
         if ($request->window == true)
             $salary += 0.008;
@@ -191,7 +189,7 @@ class SurfingController extends Controller
         $surfing = $user->surfing()->find($id);
 
         if (!isset($surfing))
-            return redirect('/manage/surfing');
+            return redirect()->route('surfingmanage')->withToaststatus('error')->withToast('Серфинг не найден!');
 
         if ($surfing->name  != $request->name){
             $surfing->name = $request->name;
@@ -210,7 +208,7 @@ class SurfingController extends Controller
         $surfing->window = $request->window;
         $surfing->user->save();
         $surfing->save();
-        return redirect('/manage/surfing');
+        return redirect()->route('surfingmanage')->withToaststatus('success')->withToast('Сохранено!');
     }
 
     /**
@@ -224,11 +222,11 @@ class SurfingController extends Controller
         $user = User::find(auth()->id());
         $surfing = $user->surfing()->find($id);
         if(!isset($surfing))
-            return redirect('/manage/surfing');
+            return redirect()->route('surfingmanage')->withToaststatus('error')->withToast('Серфинг не найден!');
         $user->balance += $surfing->available * $surfing->salary / 0.8;
         $surfing->delete();
         $user->save();
-        return redirect('/manage/surfing');
+        return redirect()->route('surfingmanage')->withToaststatus('success')->withToast('Удалено!');
     }
     public function valid(Request $request){
         $this->validate($request, array(
@@ -282,20 +280,20 @@ class SurfingController extends Controller
             if ($surfing->available > 0)
                 $surfing->is_show = true;
             else
-                return redirect()->back()->withErrors('Пополните баланс');
+                return redirect()->back()->withToaststatus('info')->withToast('Пополните баланс!');
         else
             $surfing->is_show = false;
 
         $surfing->save();
 
-        return redirect()->back();
+        return redirect()->back()->withToaststatus('success')->withToast('Статус изменен!');
     }
     public function pay($id)
     {
         $user = User::find(auth()->id());
         $surfing = $user->surfing()->find($id);
         if(!isset($surfing))
-            return redirect('/manage/surfing/');
+            return redirect()->route('surfingmanage')->withToaststatus('error')->withToast('Серфинг не найден!');
         $contexts = Context::inRandomOrder()->where('is_show',true)->limit(5)->get();
 
         return view('manage.surfing.pay')->withUser($user)->withSurfing($surfing)->withContexts($contexts);
@@ -315,7 +313,7 @@ class SurfingController extends Controller
         $price = $request->count * $surfing->salary / 0.8;
 
         if ($user->balance < $price)
-            return redirect()->back();
+            return redirect()->back()->withToaststatus('info')->withToast('Недостаточно средств на балансе!');
 
         $user->balance -= $price;
         $surfing->available += $request->count;
@@ -329,7 +327,7 @@ class SurfingController extends Controller
         $notification->status = 'is-primary';
         $notification->save();
 
-        return redirect('/manage/surfing');
+        return redirect()->route('surfingmanage')->withToaststatus('success')->withToast('Пополнено!');
     }
 
 }

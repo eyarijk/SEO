@@ -51,7 +51,7 @@ class PostController extends Controller
         $post->author_id = auth()->id();
         $post->save();
 
-        return redirect('/admin/posts');
+        return redirect()->route('posts.index')->withToaststatus('success')->withToast('Пост добавлен!');
     }
 
     /**
@@ -98,7 +98,7 @@ class PostController extends Controller
     {
         $post = Post::findOrFail($id);
         $post->delete();
-        return redirect()->back();
+        return redirect()->back()->withToaststatus('success')->withToast('Пост удален!');
     }
     public function status(Request $request)
     {
@@ -111,7 +111,7 @@ class PostController extends Controller
 
         $post->save();
 
-        return redirect()->back();
+        return redirect()->back()->withToaststatus('success')->withToast('Статус изменен!');
     }
     public function news()
     {
@@ -130,11 +130,13 @@ class PostController extends Controller
 
         if ($like_post->likepost()->find($request->id)){
             $like_post->likepost()->detach($request->id);
+            $toast = 'Лайк убран!';
         } else {
             $like_post->likepost()->attach($request->id);
+            $toast = 'Лайк добавлен!';
         }
 
-        return redirect('/news');
+        return redirect()->route('news')->withToaststatus('success')->withToast($toast);
 
     }
 }

@@ -29,23 +29,24 @@ class ManagetaskController extends Controller
             if ($task->available > 0)
                 $task->is_show = true;
             else
-                return redirect()->back()->withErrors('Пополните баланс');
+                return redirect()->back()->withToaststatus('info')->withToast('Пополните баланс');
         else
             $task->is_show = false;
 
         $task->save();
 
-        return redirect()->back();
+        return redirect()->back()->withToaststatus('success')->withToast('Статус изменен!');
     }
 
     public function report($id)
     {
         $user = User::find(auth()->id());
-        $task = Task::find($id);
-        $contexts = Context::inRandomOrder()->where('is_show',true)->limit(5)->get();
+        $task = $user->tasks()->find($id);
 
-        if($task->user_id != auth()->id())
-            return redirect('/manage/tasks/');
+        if(!isset($task))
+            return redirect()->route('managetask')->withToaststatus('error')->withToast('Задание не существует!');
+
+        $contexts = Context::inRandomOrder()->where('is_show',true)->limit(5)->get();
 
         $tasks = $task->report()->where('finished',true)->paginate(10);
 
@@ -80,7 +81,7 @@ class ManagetaskController extends Controller
         $notification->status = 'is-success';
         $notification->save();
 
-        return redirect('/manage/tasks/');
+        return redirect()->route('managetask')->withToaststatus('success')->withToast('Задание оплачено!');
     }
     public function danger(Request $request)
     {
@@ -100,16 +101,16 @@ class ManagetaskController extends Controller
         $notification->status = 'is-danger';
         $notification->save();
 
-        return redirect('/manage/tasks/');
+        return redirect()->route('managetask')->withToaststatus('success')->withToast('Задание отклонено!');
     }
 
     public function pay($id)
     {
         $user = User::find(auth()->id());
         $task = $user->tasks()->find($id);
-        $contexts = Context::inRandomOrder()->where('is_show',true)->limit(5)->get();
         if(!isset($task))
-            return redirect('/manage/tasks/');
+            return redirect()->route('managetask')->withToaststatus('error')->withToast('Задание не существует!');
+        $contexts = Context::inRandomOrder()->where('is_show',true)->limit(5)->get();
 
         return view('manage.task.pay')->withUser($user)->withTasks($task)->withContexts($contexts);
     }
@@ -126,7 +127,7 @@ class ManagetaskController extends Controller
         $price = $request->count * $task->salary * 1.2;
 
         if ($user->balance < $price)
-            return redirect()->back();
+            return redirect()->route('managetask')->withToaststatus('info')->withToast('Недостаточно средств на балансе!');
 
         $user->balance -= $price;
         $task->available += $request->count;
@@ -140,7 +141,7 @@ class ManagetaskController extends Controller
         $notification->status = 'is-primary';
         $notification->save();
 
-        return redirect('/manage/tasks');
+        return redirect()->route('managetask')->withToaststatus('success')->withToast('Баланс пополнен!');
 
     }
 

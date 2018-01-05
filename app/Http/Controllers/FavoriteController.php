@@ -46,12 +46,14 @@ class FavoriteController extends Controller
 
         if ($user_favorite->favorite_task()->find($request->id)){
             $user_favorite->favorite_task()->detach($request->id);
+            return redirect()->back()->withToaststatus('success')->withToast('Задание удалено из избранных!');
         } else {
             $user_favorite->favorite_task()->attach($request->id);
+            return redirect()->back()->withToaststatus('success')->withToast('Задание добавлено в избранное!');
         }
 
 
-        return redirect()->back();
+
     }
 
     /**

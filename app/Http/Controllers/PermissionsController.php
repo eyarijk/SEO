@@ -52,8 +52,7 @@ class PermissionsController extends Controller
           $permission->description = $request->description;
           $permission->save();
 
-          Session::flash('success','Permission has been successfully added');
-          return redirect()->route('permissions.index');
+          return redirect()->route('permissions.index')->withToaststatus('success')->withToast('Права добавлены!');
         }elseif($request->permission_type == 'crud'){
           $this->validate($request,[
             'resource' => 'required|min:3|max:100|alpha'
@@ -72,8 +71,7 @@ class PermissionsController extends Controller
               $permission->description = $description;
               $permission->save();
             }
-            Session::flash('success','Permissions were all successfully added');
-            return redirect()->route('permissions.index');
+            return redirect()->route('permissions.index')->withToaststatus('success')->withToast('Права добавлены!');
           }
         }else{
           return redirect()->route('permissions.create')->withInput();
@@ -124,7 +122,7 @@ class PermissionsController extends Controller
       $permission->description = $request->descriptin;
       $permission->save();
       Session::flash('success','Update the '.$permission->display_name.' permission');
-      return redirect()->route('permissions.show',$id);
+      return redirect()->route('permissions.show',$id)->withToaststatus('success')->withToast($permission->display_name.' отредактировано!');;
     }
 
     /**

@@ -42,6 +42,7 @@
                     data: $('#contactform').serialize(),
                     success: function(result){
                         $('#send').removeClass('is-loading').addClass('is-outlined');
+                        toastr["success"]("Отправлено!");
                         document.getElementById('contactform').reset();
                     }
                 });

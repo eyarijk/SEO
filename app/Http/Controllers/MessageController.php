@@ -83,7 +83,7 @@ class MessageController extends Controller
         $message->question = $request->question;
         $message->save();
 
-        return redirect('/manage/message');
+        return redirect()->route('managemessage')->withToaststatus('success')->withToast('Письмо добалено!');
     }
 
     /**
@@ -97,7 +97,7 @@ class MessageController extends Controller
         $user = User::find(auth()->id());
         $message = Message::where('slug',$slug)->where('is_show',true)->where('available','>','0')->first();
         if (!isset($message))
-            return redirect('/message');
+            return redirect()->route('message.index')->withToaststatus('error')->withToast('Письмо не найдено!');
         $contexts = Context::inRandomOrder()->where('is_show',true)->limit(5)->get();
         $checked = $user->checkedmessage()->where('message_id',$message->id)->first();
         if (isset($checked)){
@@ -126,7 +126,7 @@ class MessageController extends Controller
         $user = User::find(auth()->id());
         $message = $user->message()->find($id);
         if (!isset($message))
-            return redirect('/manage/message');
+            return redirect()->route('managemessage')->withToaststatus('error')->withToast('Письмо не найдено!');
         $contexts = Context::inRandomOrder()->where('is_show',true)->limit(5)->get();
         return view('manage.message.edit')
             ->withUser($user)
@@ -156,7 +156,7 @@ class MessageController extends Controller
         $user = User::find(auth()->id());
         $message = $user->message()->find($id);
         if (!isset($message))
-            return redirect('/manage/message');
+            return redirect()->route('managemessage')->withToaststatus('error')->withToast('Письмо не найдено!');
 
         if ($message->name  != $request->name){
             $message->name = $request->name;
@@ -171,7 +171,7 @@ class MessageController extends Controller
         $message->question = $request->question;
         $message->save();
 
-        return redirect('/manage/message');
+        return redirect()->route('managemessage')->withToaststatus('success')->withToast('Письмо отредактировано!');
     }
 
     /**
@@ -189,7 +189,7 @@ class MessageController extends Controller
         $user->balance += $message->available * 0.2;
         $message->delete();
         $user->save();
-        return redirect('/manage/message');
+        return redirect()->route('managemessage')->withToaststatus('success')->withToast('Письмо удалено!');
 
     }
     public function manage(){
@@ -206,20 +206,20 @@ class MessageController extends Controller
             if ($message->available > 0)
                 $message->is_show = true;
             else
-                return redirect()->back()->withErrors('Пополните баланс');
+                return redirect()->back()->withToaststatus('info')->withToast('Пополните баланс!');
         else
             $message->is_show = false;
 
         $message->save();
 
-        return redirect()->back();
+        return redirect()->back()->withToaststatus('success')->withToast('Статус изменен!');
     }
     public function pay($id)
     {
         $user = User::find(auth()->id());
         $message = $user->message()->find($id);
         if(!isset($message))
-            return redirect('/manage/message/');
+            return redirect('/manage/message/')->withToaststatus('error')->withToast('Письмо не найдено!');
         $contexts = Context::inRandomOrder()->where('is_show',true)->limit(5)->get();
 
         return view('manage.message.pay')->withUser($user)->withMessage($message)->withContexts($contexts);
@@ -234,12 +234,12 @@ class MessageController extends Controller
         $user = User::find(auth()->id());
         $message = $user->message()->find($request->id);
         if(!isset($message))
-            return redirect('/manage/message/');
+            return redirect('/manage/message/')->withToaststatus('error')->withToast('Письмо не найдено!');
         $request->count = floor($request->count);
         $price = $request->count * 0.2;
 
         if ($user->balance < $price)
-            return redirect()->back();
+            return redirect()->back()->withToaststatus('info')->withToast('Недостаточно средств на балансе!');
 
         $user->balance -= $price;
         $message->available += $request->count;
@@ -253,14 +253,14 @@ class MessageController extends Controller
         $notification->status = 'is-primary';
         $notification->save();
 
-        return redirect('/manage/message');
+        return redirect()->route('managemessage')->withToaststatus('success')->withToast('Баланс пополнен!');
 
     }
     public function work(Request $request){
         $message = Message::find($request->id);
         $user = User::find(auth()->id());
         if (!isset($message) or $message->available < 0)
-            return redirect('/message');
+            return redirect()->route('message.index')->withToaststatus('error')->withToast('Письмо не найдено!');
 
         $checked = new Checkedmessage;
         $checked->user_id = auth()->id();
@@ -279,17 +279,19 @@ class MessageController extends Controller
 
             $notification->description = 'Оплачено письмо: <a href="/message/'.$message->slug.'">'.$message->name.'</a> + 0.18 ₽ :) .';
             $notification->status = 'is-primary';
+            $toast = 'Оплачено письмо! + 0.18 ₽ :)';
         } else {
             $message->danger++;
             $checked->status = 'danger';
 
             $notification->description = 'Отклонено письмо: <a href="/message/'.$message->slug.'">'.$message->name.'</a> :( .';
             $notification->status = 'is-warning';
+            $toast = 'Отклонено письмо';
         }
         $notification->save();
         $message->save();
         $checked->save();
-        return redirect()->back();
+        return redirect()->back()->withToaststatus('success')->withToast($toast);
     }
     public function comments($slug){
         $user = User::find(auth()->id());
@@ -330,7 +332,7 @@ class MessageController extends Controller
             $notification->status = 'is-info';
             $notification->save();
 
-            return redirect()->back();
+            return redirect()->back()->withToaststatus('success')->withToast('Добавлен комментарий!');
         }else{
             return redirect()->back();
         }

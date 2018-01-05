@@ -50,7 +50,7 @@ class DeletingController extends Controller
             $user_deleting->trash()->attach($request->id);
         }
 
-        return redirect('/tasks');
+        return redirect()->route('tasks.index')->withToaststatus('success')->withToast('Задание перемещено!');
     }
 
     /**

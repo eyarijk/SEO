@@ -60,13 +60,13 @@ class ContactController extends Controller
         });
         $contact->is_show = false;
         $contact->save();
-        return redirect('/admin/contact');
+        return redirect()->route('contact.admin')->withToaststatus('success')->withToast('Ответ отправлен!');
     }
     public function delete(Request $request)
     {
         $contact = Contact::findOrFail($request->id);
         $contact->delete();
-        return redirect('/admin/contact');
+        return redirect()->route('contact.admin')->withToaststatus('success')->withToast('Удалено!');
     }
 
 }

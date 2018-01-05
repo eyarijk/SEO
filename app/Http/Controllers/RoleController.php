@@ -55,8 +55,7 @@ class RoleController extends Controller
       if ($request->permissions) {
         $role->syncPermissions(explode(',', $request->permissions));
       }
-      Session::flash('success', 'Successfully created the new '. $role->display_name . ' role in the database.');
-      return redirect()->route('roles.show', $role->id);
+      return redirect()->route('roles.show', $role->id)->withToaststatus('success')->withToast('Добавлена роль!');
     }
 
     /**
@@ -106,8 +105,7 @@ class RoleController extends Controller
         if($request->permissions)
           $role->syncPermissions(explode(',',$request->permissions));
 
-        Session::flash('success','Successfully update the'.$role->display_name.' role in the database');
-        return redirect()->route('roles.show',$id);
+        return redirect()->route('roles.show',$id)->withToaststatus('success')->withToast('Отредактирована роль!');
 
     }
 

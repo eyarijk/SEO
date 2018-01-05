@@ -52,7 +52,8 @@ class CategoryController extends Controller
         $category->save();
 
 
-        return redirect()->back()->withMessage('Good! You created a question!');
+        return redirect()->back()->withToaststatus('success')->withToast('Категория добавлена!');
+
     }
 
     /**

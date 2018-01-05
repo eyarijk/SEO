@@ -81,6 +81,7 @@ class CommentsController extends Controller
     public function destroy($id)
     {
        Comment::find($id)->delete();
-       return redirect()->back();
+       return redirect()->back()->withToaststatus('success')->withToast('Комментарий удален!');;
+
     }
 }

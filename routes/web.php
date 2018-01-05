@@ -25,7 +25,7 @@ Route::get('/rules','StatisController@rules')->name('rules');
 
 Route::get('/news','PostController@news')->name('news');
 
-Route::get('/profile','ProfileController@show')->middleware('auth');
+Route::get('/profile','ProfileController@show')->name('profile')->middleware('auth');
 
 Route::post('/posts/like','PostController@like')->middleware('auth');
 
@@ -59,7 +59,7 @@ Route::resource('/banner', 'BannerController')->middleware('auth');
 
 Route::prefix('manage')->middleware('auth')->group(function () {
     //Task
-    Route::get('/tasks','ManagetaskController@task');
+    Route::get('/tasks','ManagetaskController@task')->name('managetask');
     Route::get('/reportTask/{id}','ManagetaskController@report')->name('taskreport');
     Route::put('/task/status/', 'ManagetaskController@status');
     Route::put('/task/success/', 'ManagetaskController@success');
@@ -72,18 +72,18 @@ Route::prefix('manage')->middleware('auth')->group(function () {
     Route::get('/context/pay/{id}', 'ContextController@pay')->name('contextpay');
     Route::put('/context/buy/', 'ContextController@buy');
     //Message
-    Route::get('/message','MessageController@manage');
+    Route::get('/message','MessageController@manage')->name('managemessage');
     Route::get('/message/pay/{id}', 'MessageController@pay')->name('messagepay');
     Route::post('/message/status/', 'MessageController@status');
     Route::post('/message/buy/', 'MessageController@buy');
     Route::post('/message/work', 'MessageController@work');
     //Surfing
-    Route::get('/surfing','SurfingController@manage');
+    Route::get('/surfing','SurfingController@manage')->name('surfingmanage');
     Route::get('/surfing/pay/{id}', 'SurfingController@pay')->name('surfingpay');
     Route::post('/surfing/status/', 'SurfingController@status');
     Route::post('/surfing/buy/', 'SurfingController@buy');
     //Banner
-    Route::get('/banner/','BannerController@manage')->middleware('auth');
+    Route::get('/banner/','BannerController@manage')->name('bannermanage')->middleware('auth');
     Route::get('/banner/pay/{id}', 'BannerController@pay')->name('bannerpay');
     Route::post('/banner/status/', 'BannerController@status');
     Route::post('/banner/buy/', 'BannerController@buy');

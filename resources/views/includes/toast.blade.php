@@ -1,3 +1,3 @@
-@if($toast)
-    <script>toastr["{{$toast['status']}}"]("{{$toast['message']}}")</script>
+@if(session('toast'))
+    <script>toastr["{{ session('toaststatus') }}"]("{{ session('toast') }}")</script>
 @endif

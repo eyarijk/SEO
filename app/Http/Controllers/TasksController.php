@@ -121,7 +121,7 @@ class TasksController extends Controller
         $task->question = strtolower($question);
         $task->save();
 
-        return redirect('/manage/tasks');
+        return redirect()->route('managetask')->withToaststatus('success')->withToast('Задание создано!');
 
     }
 
@@ -186,7 +186,7 @@ class TasksController extends Controller
         $contexts = Context::inRandomOrder()->where('is_show',true)->limit(5)->get();
         $task = Task::find($id);
         if (!isset($task) or $task->user_id != auth()->id())
-            return redirect('/manage/tasks');
+            return redirect()-route('managetask')->withToaststatus('error')->withToast('Задание не найдено!');
         return view('task.edit')
             ->withCategory($category)
             ->withUser($user)
@@ -234,7 +234,7 @@ class TasksController extends Controller
 
         $task = Task::find($id);
         if (!isset($task) or $task->user_id != auth()->id())
-            return redirect('/manage/tasks');
+            return redirect()->route('managetask')->withToaststatus('success')->withToast('Задание не найдено!');
         $task->name = $request->name;
         $task->slug = str_slug($request->name).'-'.date('U');
         $task->category_id = $request->category_id;
@@ -257,7 +257,7 @@ class TasksController extends Controller
         $task->user->save();
         $task->save();
 
-        return redirect('/manage/tasks');
+        return redirect()->route('managetask')->withToaststatus('success')->withToast('Задание отредактировано!');
     }
 
     /**
@@ -274,7 +274,7 @@ class TasksController extends Controller
         $task->user->balance += $task->available * $task->salary * 1.2;
         $task->user->save();
         $task->delete();
-        return redirect()->back();
+        return redirect()->back()->withToaststatus('success')->withToast('Задание удалено!');
     }
     // Setting menu
     public function new_tasks()
@@ -459,7 +459,7 @@ class TasksController extends Controller
             $notification->status = 'is-info';
             $notification->save();
 
-            return redirect()->back();
+            return redirect()->back()->withToaststatus('success')->withToast('Комментарий создан!');
         }else{
             return redirect()->back();
         }

@@ -59,7 +59,7 @@ class BannerController extends Controller
             $banner->image = $filename;
             $banner->name = $request->name;
             $banner->save();
-            return redirect('/manage/banner');
+            return redirect()->route('bannermanage')->withToaststatus('success')->withToast('Баннер добавлен!');
         }
     }
 
@@ -120,7 +120,8 @@ class BannerController extends Controller
             $banner->image = $filename;
             $banner->name = $request->name;
             $banner->save();
-            return redirect('/manage/banner');
+            return redirect()->route('bannermanage')->withToaststatus('success')->withToast('Баннер обновлен!');
+
         }
     }
 
@@ -139,7 +140,7 @@ class BannerController extends Controller
         $user->balance += $banner->available * 0.2;
         $user->save();
         $banner->delete();
-        return redirect('/manage/banner');
+        return redirect()->route('bannermanage')->withToaststatus('success')->withToast('Баннер удален!');
     }
     public function manage(){
         $user = User::find(auth()->id());
@@ -151,19 +152,19 @@ class BannerController extends Controller
     {
         $banner = User::find(auth()->id())->banner()->find($request->id);
         if (!isset($banner))
-            return redirect('/manage/banner');
+            return redirect()->route('bannermanage')->withToaststatus('error')->withToast('Баннер не существует!');
 
         if ($banner->is_show == false)
             if ($banner->available > 0)
                 $banner->is_show = true;
             else
-                return redirect()->back()->withErrors('Пополните баланс');
+                return redirect()->route('bannermanage')->withToaststatus('info')->withToast('Пополните баланс!');
         else
             $banner->is_show = false;
 
         $banner->save();
 
-        return redirect()->back();
+        return redirect()->route('bannermanage')->withToaststatus('success')->withToast('Статус изменен!');
     }
     public function pay($id)
     {
@@ -185,12 +186,12 @@ class BannerController extends Controller
         $user = User::find(auth()->id());
         $banner = $user->banner()->where('id',$request->id)->first();
         if (!isset($banner))
-            return redirect('/manage/banner');
+            return redirect()->route('bannermanage')->withToaststatus('error')->withToast('Баннен не существует!');
         $request->count = floor($request->count);
         $price = $request->count * 0.2;
 
         if ($user->balance < $price)
-            return redirect()->back();
+            return redirect()->route('bannermanage')->withToaststatus('info')->withToast('Недостаточно средств на балансе!');
 
         $user->balance -= $price;
         $banner->available += $request->count;
@@ -204,7 +205,7 @@ class BannerController extends Controller
         $notification->status = 'is-primary';
         $notification->save();
 
-        return redirect('/manage/banner');
+        return redirect()->route('bannermanage')->withToaststatus('success')->withToast('Баланс пополнен!');
 
     }
     public function redirectbanner($id){

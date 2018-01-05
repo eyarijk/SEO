@@ -45,7 +45,7 @@ class WorktaskController extends Controller
         $report->task_id = $request->id;
         $report->save();
         $task->save();
-        return redirect()->back();
+        return redirect()->back()->withToaststatus('success')->withToast('Работа начата!');
     }
 
     /**
@@ -158,7 +158,7 @@ class WorktaskController extends Controller
                $notification->status = 'is-warning';
                $notification->save();
 
-               return redirect()->back();
+               return redirect()->back()->withToaststatus('success')->withToast('Отчёт отправлен!');
 
             } else {
                 $report->finished = true;
@@ -196,6 +196,6 @@ class WorktaskController extends Controller
     public function destroy($id)
     {
         Report::find($id)->delete();
-        return redirect()->back();
+        return redirect()->back()->withToaststatus('success')->withToast('Отчёт удален!');
     }
 }
