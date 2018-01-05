@@ -26,7 +26,7 @@
                                                     <p class="task">
                                                         <i class="fa fa-user m-r-5" aria-hidden="true"></i><a href="{{route('message.show',$message->slug)}}"> </a><small>{{$message->user->name}} {{$message->created_at->diffForHumans()}} <i class="fa fa-clock-o" aria-hidden="true"></i> </small>
                                                         <br>
-                                                        <a href="{{route('message.show',$message->slug)}}">#{{$message->id}} «{{$message->title}}»</a>
+                                                        <a href="{{route('post',$message->slug)}}">#{{$message->id}} «{{$message->title}}»</a>
                                                     </p>
                                                 </div>
                                                 <nav class="level is-mobile">

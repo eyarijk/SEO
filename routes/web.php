@@ -25,7 +25,11 @@ Route::get('/rules','StatisController@rules')->name('rules');
 
 Route::get('/news','PostController@news')->name('news');
 
+Route::get('/news/{slug}', 'PostController@post')->name('post');
+
 Route::get('/profile','ProfileController@show')->name('profile')->middleware('auth');
+
+Route::post('/news/comment/create','PostController@createcomment')->name('post.comment');
 
 Route::post('/posts/like','PostController@like')->middleware('auth');
 
@@ -40,8 +44,6 @@ Route::post('/context/redirect', 'ContextController@redirect');
 Route::resource('/tasks','TasksController')->middleware('auth');
 
 Route::resource('/message','MessageController')->middleware('auth');
-
-Route::resource('/category','CategoryController')->middleware('auth');
 
 Route::resource('/favorite','FavoriteController')->middleware('auth');
 
@@ -135,4 +137,5 @@ Route::prefix('admin')->middleware('role:superadministrator|administrator|editor
     Route::resource('/permissions','PermissionsController',['except' => 'destroy'])->middleware('role:superadministrator');
     Route::resource('/roles','RoleController',['except' => 'destroy'])->middleware('role:superadministrator');
     Route::resource('/posts','PostController')->middleware('role:superadministrator|administrator|editor');
+    Route::resource('/category','CategoryController',['except' => 'destroy'])->middleware('role:superadministrator');
 });

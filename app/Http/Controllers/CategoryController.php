@@ -15,7 +15,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $categories = Category::paginate(10);
+        $user = User::find(auth()->id());
+        return view('admin.category.index')->withUser($user)->withCategories($categories);
     }
 
     /**
@@ -75,7 +77,9 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = User::find(auth()->id());
+        $category = Category::findOrFail($id);
+        return view('admin.category.edit')->withUser($user)->withCategory($category);
     }
 
     /**
@@ -87,7 +91,22 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, array(
+            'name' => 'required|max:30|min:3',
+        ));
+        if(isset($request->is_show))
+            $show = true;
+        else
+            $show = false;
+
+        $category = Category::findOrFail($id);
+        $category->name=$request->name;
+        $category->slug=str_slug($category->name);
+        $category->is_show = $show;
+        $category->save();
+
+        return redirect()->route('category.index')->withToaststatus('success')->withToast('Категория сохранена!');
+
     }
 
     /**

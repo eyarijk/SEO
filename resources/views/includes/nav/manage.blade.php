@@ -29,6 +29,7 @@
       </p>
       <ul class="menu-list">
         <li><a href="{{route('users.index')}}" class="{{Nav::isResource('users')}}">Пользователи</a></li>
+        <li><a href="{{route('category.index')}}" class="{{Nav::isResource('category')}}">Категории</a></li>
       @endrole
       @role('superadministrator')
       <li><a href="{{route('roles.index')}}" class="{{Nav::isResource('roles')}}">Роли</a></li>

@@ -6,6 +6,7 @@ use App\User;
 use Illuminate\Http\Request;
 use App\Post;
 use App\Context;
+use App\Comment;
 
 class PostController extends Controller
 {
@@ -136,7 +137,44 @@ class PostController extends Controller
             $toast = 'Лайк добавлен!';
         }
 
-        return redirect()->route('news')->withToaststatus('success')->withToast($toast);
+        return redirect()->back()->withToaststatus('success')->withToast($toast);
 
+    }
+    public function post($slug)
+    {
+        $post = Post::where('slug',$slug)->where('is_show',true)->first();
+        if (!isset($post))
+            return redirect()->route('news')->withToaststatus('error')->withToast('Пост не найден!');
+        $contexts = Context::inRandomOrder()->where('is_show',true)->limit(5)->get();
+        $user = User::find(auth()->id());
+        $form_show = count(Comment::where('user_id',auth()->id())
+            ->where('commentable_id',$post->id)
+            ->where('commentable_type','App\Post')
+            ->first());
+        $comments = $post->comments()->orderBy('created_at','desc')->paginate(10);
+        return view('post')->withPost($post)->withContexts($contexts)->withUser($user)->withForm($form_show)->withComments($comments);
+    }
+    public function createcomment(Request $request)
+    {
+        $this->validate($request,[
+            'description' => 'required|min:3|max:250',
+            'id' => 'required|numeric'
+        ]);
+
+        //dd($request);
+        $post = Post::findOrFail($request->id);
+        $valid = $post->comments()->where('user_id',auth()->id())->first();
+        if(count($valid) < 1){
+            $comment = New Comment;
+            $comment->description = $request->description;
+            $comment->user_id = auth()->id();
+            $comment->commentable_id = $request->id;
+            $comment->commentable_type = "App\Post";
+            $comment->save();
+
+            return redirect()->back()->withToaststatus('success')->withToast('Комментарий создан!');
+        }else{
+            return redirect()->back();
+        }
     }
 }
