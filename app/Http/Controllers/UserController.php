@@ -146,4 +146,8 @@ class UserController extends Controller
     {
         //
     }
+    public function apiCheckUnique(Request $request)
+    {
+        return json_encode(User::where('email',$request->email)->exists());
+    }
 }

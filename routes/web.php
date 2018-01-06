@@ -139,3 +139,6 @@ Route::prefix('admin')->middleware('role:superadministrator|administrator|editor
     Route::resource('/posts','PostController')->middleware('role:superadministrator|administrator|editor');
     Route::resource('/category','CategoryController',['except' => 'destroy'])->middleware('role:superadministrator');
 });
+
+//API
+Route::get('/email/unique','UserController@apiCheckUnique')->name('api.email.unique');

@@ -22,11 +22,11 @@
             <a id="answer" class="card-footer-item">Ответить</a>
             <a @click="confirm" class="card-footer-item">Удалить</a>
         </footer>
-        <footer id="form" style="display: none;" class="card-footer">
+        <footer id="form" style="display: none;padding: 5px; " class="card-footer">
             <form name="send"  style="width: 100%;height: 170px;" action="/admin/contact/answer" method="post">
                 {{csrf_field()}}
                 <input type="hidden" name="id" value="{{$contact->id}}">
-                <textarea placeholder="Напишите ответ. Минимум 10 символов..." name="answer" style="padding: 10px; width: 100%;height: 170px;resize:none"></textarea>
+                <textarea placeholder="Напишите ответ. Минимум 10 символов..." class="textarea" name="answer" style="padding: 10px; width: 100%;height: 170px;resize:none"></textarea>
             </form>
         </footer>
         <footer id="form-second" style="display: none;" class="card-footer">

@@ -20,11 +20,12 @@
           <div class="field">
             <label for="email" class="label">Email Address</label>
             <p class="control">
-              <input type="text" class="input {{$errors->has('email') ? 'is-danger' : ' '}}" name="email" value="{{old('email')}}" id="email" required>
+              <input type="text" id="valid_email" v-model="email" class="input {{$errors->has('email') ? 'is-danger' : ' '}}" name="email" value="{{old('email')}}" id="email" required>
             </p>
             @if($errors->has('email'))
               <p class="help if-danger">{{$errors->first('email')}}</p>
             @endif
+              <p class="help if-danger" v-text="valid"></p>
           </div>
           <div class="columns">
             <div class="column">
@@ -60,8 +61,13 @@
 @endsection
 @section('scripts')
   <script>
+      var pattern = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
       var app = new Vue({
           el: '#app',
+          data:{
+                email: '',
+                valid: ''
+          },
           methods: {
               confirmCustom() {
                   this.$dialog.confirm({
@@ -91,6 +97,26 @@
                       type: 'is-success',
                       onConfirm: () => document.forms["form"].submit()
                 })
+              },
+              validation: _.debounce(function () {
+                  var app = this
+                  axios.get('{{url('/email/unique')}}/?email=' + app.email)
+                      .then(function (response) {
+                          if (response.data == true){
+                              app.valid = "Этот " + app.email + " занят!";
+                              $('#valid_email').addClass('is-danger');
+                          }
+
+                      })
+              })
+          },
+          watch: {
+              email: function () {
+                  this.valid = '';
+                  $('#valid_email').removeClass('is-danger');
+                  if (this.email.search(pattern) == 0) {
+                     this.validation()
+                  }
               }
           }
       });
