@@ -35,14 +35,14 @@
                          type="is-danger"
                          message="{{$errors->first('description')}}"
                         @endif>
-                    <b-input maxlength="3000" name="description" type="textarea"></b-input>
+                    <b-input maxlength="3000" id="description" name="description" type="textarea"></b-input>
                 </b-field>
                 <b-field label="Что должен указать исполнитель для проверки выполнения задания ↓"
                          @if ($errors->first('answer'))
                          type="is-danger"
                          message="{{$errors->first('answer')}}"
                         @endif>
-                    <b-input maxlength="500" name="answer" type="textarea"></b-input>
+                    <b-input maxlength="500" id="description" name="answer" type="textarea"></b-input>
                 </b-field>
                 <hr>
                 <b-field class="m-b-0" label="Вознаграждение исполнителю"

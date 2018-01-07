@@ -1,95 +1,55 @@
-<!doctype html>
-<html lang="{{ app()->getLocale() }}">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<!DOCTYPE html>
+<!--[if lte IE 9]><html class="no-js is-ie"><![endif]-->
+<!--[if gt IE 8]><!--><html class=no-js><!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <title>SEO</title>
+    <link rel=stylesheet href="{{ asset('welcome/css/main.css') }}">
+    <!--[if lte IE 8]>
+    <link rel=stylesheet href="{{ asset('welcome/css/ie.css') }}">
+    <![endif]-->
+    <script src="{{ asset('welcome/js/vendor/modernizr.js') }}"></script>
+    <script src="{{ asset('welcome/js/vendor/respond.min.js') }}"></script>
 
-        <title>Laravel</title>
+</head>
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
+<body>
+<div class="level level-hero hero-home has-hint">
 
-        <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Raleway', sans-serif;
-                font-weight: 100;
-                height: 100vh;
-                margin: 0;
-            }
 
-            .full-height {
-                height: 100vh;
-            }
+    <div class="hero-overlay visible-lg"></div>
 
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
+    <video loop id=bg-video class=fullscreen-video>
+        <source src="{{ asset('welcome/video/appi.webm') }}" type="video/webm">
+        <source src="{{ asset('welcome/video/appi.mp4') }}" type="video/mp4">
 
-            .position-ref {
-                position: relative;
-            }
+    </video>
 
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
-
-            .content {
-                text-align: center;
-            }
-
-            .title {
-                font-size: 84px;
-            }
-
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 12px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
-
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/tasks') }}">Tasks</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
-                        <a href="{{ route('register') }}">Register</a>
-                    @endauth
+    <div class="container full-height">
+        <div class=v-align-parent>
+            <div class=v-center>
+                <div class="row">
+                    <div class="col-xs-10 col-sm-6">
+                        <h1 class="mb-10 heading">ДОБРО ПОЖАЛОВАТЬ</h1>
+                        <div class="subheading mb-20">У нас вы сможете легко заработать реаль­ные деньги. <br class=hidden-xs>Для этого Вам не потребуются какие-либо особые навыки или уйма времени. </div>
+                    </div>
                 </div>
-            @endif
-
-            <div class="content">
-                <div class="title m-b-md">
-                    SEO
-                </div>
-
-                <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
+                <div>
+                    <a class="btn btn-prepend btn-launch-video" href="/login">
+                        <i class="prepended icon-user"></i>Вход
+                    </a>
+                    <a class="btn btn-prepend" href="/register">
+                        <i class="prepended icon-append-play"></i>Регистрация
+                    </a>
                 </div>
             </div>
         </div>
-    </body>
+    </div>
+</div>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="{{ asset('welcome/js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('welcome/js/main.js') }}"></script>
+<!-- //-end- concat_js -->
+</body>
 </html>

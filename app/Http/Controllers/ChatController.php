@@ -19,7 +19,7 @@ class ChatController extends Controller
         }
         $message = array_reverse($message);
 
-        return view('chat.show')->withUser($user)->withContexts($contexts)->withMessages($message);
+        return view('chat')->withUser($user)->withContexts($contexts)->withMessages($message);
     }
     public function send(Request $request)
     {

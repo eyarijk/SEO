@@ -12,7 +12,10 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    if(!auth()->id())
+        return view('welcome');
+    else
+        return redirect()->route('tasks.index');
 });
 
 Auth::routes();
