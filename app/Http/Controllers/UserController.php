@@ -20,7 +20,7 @@ class UserController extends Controller
     public function index()
     {
         $users = User::orderBy('id','desc')->paginate(20);
-        return view('admin.users.index')->withUsers($users);
+        return view('admin.users.index')->withUsers($users)->withPaginate(true);;
     }
 
     /**
@@ -149,5 +149,17 @@ class UserController extends Controller
     public function apiCheckUnique(Request $request)
     {
         return json_encode(User::where('email',$request->email)->exists());
+    }
+    public function search(Request $request)
+    {
+        if ($request->select == 'ID'){
+            $users = User::where('id',$request->value)->get();
+        }elseif ($request->select == 'email'){
+            $users = User::where('email','LIKE','%'.$request->value.'%')->get();
+        }elseif ($request->select == 'name'){
+            $users = User::where('name','LIKE','%'.$request->value.'%')->get();
+        }
+
+        return view('admin.users.index')->withUsers($users)->withPaginate(false);
     }
 }

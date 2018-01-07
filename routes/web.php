@@ -139,6 +139,7 @@ Route::prefix('admin')->middleware('role:superadministrator|administrator|editor
     Route::get('/contact/{id}','Ajax\ContactController@details')->name('contact.details');
     Route::post('/contact/answer','Ajax\ContactController@answer');
     Route::post('/contact/delete','Ajax\ContactController@delete');
+    Route::post('/users/search','UserController@search')->name('users.search')->middleware('role:superadministrator|administrator');
     Route::post('/posts/status','PostController@status')->middleware('role:superadministrator|administrator|editor');
     Route::resource('/users','UserController')->middleware('role:superadministrator|administrator');
     Route::resource('/permissions','PermissionsController',['except' => 'destroy'])->middleware('role:superadministrator');

@@ -10,7 +10,29 @@
       <a href="{{route('users.create')}}" class="button is-primary is-pulled-right"><i class="fa fa-user-plus m-r-10"></i>Создать пользователя</a>
     </div>
   </div>
-  <hr class="m-t-0">
+  <form name="search" action="{{route('users.search')}}" method="post">
+    {{csrf_field()}}
+    <div class="field has-addons">
+      <p class="control">
+      <span class="select">
+        <select name="select">
+          <option value="ID">ID</option>
+          <option value="email">E-Mail</option>
+          <option value="name">Имя</option>
+        </select>
+      </span>
+      </p>
+      <div class="control">
+        <input class="input" type="text" name="value" placeholder="Введите значение...">
+      </div>
+      <div class="control">
+        <a onclick="forms['search'].submit();" class="button is-info">
+          Найти
+        </a>
+      </div>
+    </div>
+  </form>
+  <hr class="m-t-5">
       <div class="card">
         <div class="card-content">
           <table class="table is-narrow">
@@ -38,7 +60,9 @@
 
         </div>
       </div>
-      {{$users->links()}}
+      @if ($paginate == true)
+          {{$users->links()}}
+        @endif
     </div>
 
 
