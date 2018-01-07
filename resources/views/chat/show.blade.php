@@ -12,7 +12,7 @@
             @endif
         </div>
         <div class="column is-three-fifths">
-            <section id="scroll">
+            <section id="scroll" class="scrollbar">
                 <div class="chat">
                     <span>Загрузить ещё</span>
                     <ul class="messages">
