@@ -29,6 +29,10 @@ Route::get('/news/{slug}', 'PostController@post')->name('post');
 
 Route::get('/profile','ProfileController@show')->name('profile')->middleware('auth');
 
+Route::get('/chat','ChatController@show')->name('chat')->middleware('auth');
+
+Route::post('/chat/send','ChatController@send')->middleware('auth');
+
 Route::post('/news/comment/create','PostController@createcomment')->name('post.comment');
 
 Route::post('/posts/like','PostController@like')->middleware('auth');
