@@ -32,7 +32,8 @@
                         @endforeach
                     </ul>
                 </div>
-
+                <hr class="time-hr">
+                <p id="typing" style="color: #2d85f1;display: none;"><i class="fa fa-keyboard-o m-r-5" aria-hidden="true"></i><span id="typing_name"></span></p>
             </section>
             <form id="chatform" name="chat" method="POST">
                 {{csrf_field()}}
@@ -45,8 +46,11 @@
                         <a onclick="$('#button-submit').click();" class="button is-info is-outlined">
                             Отправить
                         </a>
+
                     </div>
+
                 </div>
+
             </form>
         </div>
         <div class="column">
@@ -68,13 +72,20 @@
             var scrollDiv = document.getElementById("scroll");
             scrollDiv.scrollTo(0, scrollDiv.scrollHeight);
         }
+        function hiiden_typing() {
+           $('#typing').css('display','none');
+        }
         $(document).ready(function() {
             var scrollDiv = document.getElementById("scroll");
             scrollDiv.scrollTo(0, scrollDiv.scrollHeight);
         });
         // Send message
-        var socket = io(':6010');
+        var socket = io(':6011');
         $(document).ready(function(){
+            $("#new_message").keypress(function ()
+            {
+                socket.emit('chat write','{{$user->name}}');
+            });
             $('#chatform').on('submit', function(e){
                 e.preventDefault();
                 appendMessage($('#new_message').val(),'other',avatar,'{{$user->name}}',new Date());
@@ -98,6 +109,13 @@
         socket.on('chat message',function (msg) {
             var json = JSON.parse(msg);
             appendMessage(json[0],json[1],json[2],json[3],'только что');
+        });
+        socket.on('chat write',function (msg) {
+            if ($('#typing').css('display') == 'none'){
+                $('#typing').css('display','block');
+                $('#typing_name').text(msg + ' пишет...');
+                setTimeout(hiiden_typing, 1000);
+            }
         });
 
     </script>
