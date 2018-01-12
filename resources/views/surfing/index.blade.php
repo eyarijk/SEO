@@ -24,7 +24,7 @@
                                                     <p class="task">
                                                         <i class="fa fa-user" aria-hidden="true"></i><a href="{{route('surfing.show',$surf->slug)}}"> {{$surf->user->name}}</a> <small>{{$surf->created_at->diffForHumans()}} <i class="fa fa-clock-o" aria-hidden="true"></i> </small>
                                                         <br>
-                                                        <a href="{{route('surfing.show',$surf->slug)}}">#{{$surf->id}} «{{$surf->name}}»</a>
+                                                        <a target="_blank" href="{{route('surfing.show',$surf->slug)}}">#{{$surf->id}} «{{$surf->name}}»</a>
                                                     </p>
                                                 </div>
                                             </div>

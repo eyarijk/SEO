@@ -110,13 +110,15 @@ class SurfingController extends Controller
         if (isset($valid)){
             return redirect('/surfing');
         }
+        $file = file_get_contents($surfing->url);
         $banner = Banner::inRandomOrder()->where('is_show',true)->limit(1)->first();
         $contexts = Context::inRandomOrder()->where('is_show',true)->limit(5)->get();
         return view('surfing.show')
             ->withUser($user)
             ->withContexts($contexts)
             ->withSurfing($surfing)
-            ->withBanner($banner);
+            ->withBanner($banner)
+            ->withFile($file);
     }
 
     /**
