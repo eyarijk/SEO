@@ -9,7 +9,7 @@
             @include('includes.manage_tabs')
             @if($message->count() > 0)
                 @foreach($message as $mess)
-                    <form name="status-{{$mess->id}}" action="/manage/message/status/" method="post">
+                    <form name="status-{{$mess->id}}" action="{{route('messagestatus')}}" method="post">
                         <input type="hidden" value="{{$mess->id}}" name="id">
                         {{csrf_field()}}
                     </form>

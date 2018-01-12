@@ -22,7 +22,7 @@
                                              src="{{asset('images/icon/avatar.png')}}"
                                         @endif>
                                     </figure>
-                                    <form id="avatar" method="post" action="/avatar" enctype="multipart/form-data">
+                                    <form id="avatar" method="post" action="{{route('profile.avatar')}}" enctype="multipart/form-data">
                                         {{csrf_field()}}
                                         <div class="file">
                                             <label class="file-label">

@@ -16,7 +16,7 @@
                                 </figure>
                             </div>
                             <div class="media-content">
-                                <form method="post" action="/manage/banner/buy/">
+                                <form method="post" action="{{route('bannerbuy')}}">
                                     {{csrf_field()}}
                                     <input type="hidden" value="{{$banner->id}}" name="id">
                                     <div class="content">

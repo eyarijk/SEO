@@ -8,12 +8,12 @@
         <div class="column m-t-20 is-three-fifths">
             @if($tasks->count() > 0)
                 @foreach($tasks as $task)
-                    <form name="reject-{{$task->id}}" action="/manage/task/danger/" method="post">
+                    <form name="reject-{{$task->id}}" action="{{route('taskdanger')}}" method="post">
                         <input type="hidden" value="{{$task->id}}" name="id">
                         {{csrf_field()}}
                         {{method_field('put')}}
                     </form>
-                    <form name="success-{{$task->id}}" action="/manage/task/success/" method="post">
+                    <form name="success-{{$task->id}}" action="{{route('tasksuccess')}}" method="post">
                         <input type="hidden" value="{{$task->id}}" name="id">
                         {{csrf_field()}}
                         {{method_field('put')}}

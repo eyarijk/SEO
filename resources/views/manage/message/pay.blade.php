@@ -16,7 +16,7 @@
                                 </figure>
                             </div>
                             <div class="media-content">
-                                <form method="post" action="/manage/message/buy/">
+                                <form method="post" action="{{route('messagebuy')}}">
                                     {{csrf_field()}}
                                     <input type="hidden" value="{{$message->id}}" name="id">
                                     <div class="content">

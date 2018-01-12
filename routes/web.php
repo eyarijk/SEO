@@ -40,7 +40,7 @@ Route::post('/news/comment/create','PostController@createcomment')->name('post.c
 
 Route::post('/posts/like','PostController@like')->middleware('auth');
 
-Route::post('/avatar','ProfileController@avatar')->middleware('auth');
+Route::post('/avatar','ProfileController@avatar')->name('profile.avatar')->middleware('auth');
 
 Route::post('/profile/edit','ProfileController@update')->middleware('auth');
 
@@ -70,32 +70,32 @@ Route::prefix('manage')->middleware('auth')->group(function () {
     //Task
     Route::get('/tasks','ManagetaskController@task')->name('managetask');
     Route::get('/reportTask/{id}','ManagetaskController@report')->name('taskreport');
-    Route::put('/task/status/', 'ManagetaskController@status');
-    Route::put('/task/success/', 'ManagetaskController@success');
-    Route::put('/task/danger/', 'ManagetaskController@danger');
+    Route::put('/task/status/', 'ManagetaskController@status')->name('taskstatus');
+    Route::put('/task/success/', 'ManagetaskController@success')->name('tasksuccess');
+    Route::put('/task/danger/', 'ManagetaskController@danger')->name('taskdanger');
     Route::get('/task/pay/{id}', 'ManagetaskController@pay')->name('taskpay');
-    Route::put('/task/buy/', 'ManagetaskController@buy');
+    Route::post('/task/buy/', 'ManagetaskController@buy')->name('taskbuy');
     //Context
-    Route::resource('/contexts', 'ContextController')->middleware('auth');
-    Route::put('/context/status/', 'ContextController@status');
+    Route::resource('/contexts', 'ContextController');
+    Route::put('/context/status/', 'ContextController@status')->name('contextstatus');
     Route::get('/context/pay/{id}', 'ContextController@pay')->name('contextpay');
-    Route::put('/context/buy/', 'ContextController@buy');
+    Route::put('/context/buy/', 'ContextController@buy')->name('contextbuy');
     //Message
     Route::get('/message','MessageController@manage')->name('managemessage');
     Route::get('/message/pay/{id}', 'MessageController@pay')->name('messagepay');
-    Route::post('/message/status/', 'MessageController@status');
-    Route::post('/message/buy/', 'MessageController@buy');
-    Route::post('/message/work', 'MessageController@work');
+    Route::post('/message/status/', 'MessageController@status')->name('messagestatus');
+    Route::post('/message/buy/', 'MessageController@buy')->name('messagebuy');
+    Route::post('/message/work', 'MessageController@work')->name('messagework');
     //Surfing
     Route::get('/surfing','SurfingController@manage')->name('surfingmanage');
     Route::get('/surfing/pay/{id}', 'SurfingController@pay')->name('surfingpay');
-    Route::post('/surfing/status/', 'SurfingController@status');
-    Route::post('/surfing/buy/', 'SurfingController@buy');
+    Route::post('/surfing/status/', 'SurfingController@status')->name('surfingstatus');
+    Route::post('/surfing/buy/', 'SurfingController@buy')->name('surfingbuy');
     //Banner
-    Route::get('/banner/','BannerController@manage')->name('bannermanage')->middleware('auth');
+    Route::get('/banner/','BannerController@manage')->name('bannermanage');
     Route::get('/banner/pay/{id}', 'BannerController@pay')->name('bannerpay');
-    Route::post('/banner/status/', 'BannerController@status');
-    Route::post('/banner/buy/', 'BannerController@buy');
+    Route::post('/banner/status/', 'BannerController@status')->name('bannerstatus');;
+    Route::post('/banner/buy/', 'BannerController@buy')->name('bannerbuy');
 });
 
 Route::get('/notifications/clear', 'NotificationController@clear')->name('clear')->middleware('auth');

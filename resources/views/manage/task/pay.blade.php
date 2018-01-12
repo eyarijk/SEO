@@ -16,9 +16,8 @@
                                 </figure>
                             </div>
                             <div class="media-content">
-                                <form method="post" action="/manage/task/buy/">
+                                <form method="post" action="{{route('taskbuy')}}">
                                     {{csrf_field()}}
-                                    {{method_field('put')}}
                                     <input type="hidden" value="{{$tasks->id}}" name="id">
                                     <input type="hidden" value="task" name="type">
                                     <div class="content">

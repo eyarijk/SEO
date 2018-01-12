@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserRegistered;
 use App\Limit;
 use App\Notification;
 use App\Report;
 use App\Task;
+use App\User;
 use Illuminate\Http\Request;
 
 class WorktaskController extends Controller

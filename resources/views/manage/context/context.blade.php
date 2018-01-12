@@ -9,7 +9,7 @@
             @include('includes.manage_tabs')
             @if($context->count() > 0)
                 @foreach($context as $cont)
-                    <form name="status-{{$cont->id}}" action="/manage/context/status/" method="post">
+                    <form name="status-{{$cont->id}}" action="{{route('contextstatus')}}" method="post">
                         <input type="hidden" value="{{$cont->id}}" name="id">
                         {{csrf_field()}}
                         {{method_field('put')}}

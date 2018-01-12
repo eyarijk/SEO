@@ -9,7 +9,7 @@
             @include('includes.manage_tabs')
             @if($tasks->count() > 0)
                 @foreach($tasks as $task)
-                    <form name="status-{{$task->id}}" action="/manage/task/status/" method="post">
+                    <form name="status-{{$task->id}}" action="{{route('taskstatus')}}" method="post">
                         <input type="hidden" value="{{$task->id}}" name="id">
                         {{csrf_field()}}
                         {{method_field('put')}}

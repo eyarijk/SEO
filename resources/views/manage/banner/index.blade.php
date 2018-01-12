@@ -9,7 +9,7 @@
             @include('includes.manage_tabs')
             @if($banners->count() > 0)
                 @foreach($banners as $banner)
-                    <form name="status-{{$banner->id}}" action="/manage/banner/status/" method="post">
+                    <form name="status-{{$banner->id}}" action="{{route('bannerstatus')}}" method="post">
                         <input type="hidden" value="{{$banner->id}}" name="id">
                         {{csrf_field()}}
                     </form>

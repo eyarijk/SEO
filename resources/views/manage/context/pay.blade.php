@@ -16,7 +16,7 @@
                                 </figure>
                             </div>
                             <div class="media-content">
-                                <form method="post" action="/manage/context/buy/">
+                                <form method="post" action="{{route('contaxtbuy')}}">
                                     {{csrf_field()}}
                                     {{method_field('put')}}
                                     <input type="hidden" value="{{$context->id}}" name="id">

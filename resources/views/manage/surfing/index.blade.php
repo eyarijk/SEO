@@ -9,7 +9,7 @@
             @include('includes.manage_tabs')
             @if($surfing->count() > 0)
                 @foreach($surfing as $surf)
-                    <form name="status-{{$surf->id}}" action="/manage/surfing/status/" method="post">
+                    <form name="status-{{$surf->id}}" action="{{route('surfingstatus')}}" method="post">
                         <input type="hidden" value="{{$surf->id}}" name="id">
                         {{csrf_field()}}
                     </form>

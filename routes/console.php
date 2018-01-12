@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Foundation\Inspiring;
+use App\Limit;
+use App\Checkedmessage;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +18,17 @@ use Illuminate\Foundation\Inspiring;
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->describe('Display an inspiring quote');
+
+Artisan::command('limit', function () {
+    $now_time = now();
+    $limits = Limit::where('finish_at','<',$now_time)->get();
+    foreach ($limits as $limit){
+        $limit->user->pay()->detach($limit->task_id);
+        $limit->delete();
+    }
+    $checked = Checkedmessage::where('finish_at','<',$now_time)->get();
+    foreach ($checked as $ch) {
+        $ch->delete();
+    }
+    $this->info('Limit finished');
+})->describe('Validation limit on task and message');

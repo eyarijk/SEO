@@ -16,7 +16,7 @@
                                 </figure>
                             </div>
                             <div class="media-content">
-                                <form method="post" action="/manage/surfing/buy/">
+                                <form method="post" action="{{route('surfingbuy')}}">
                                     {{csrf_field()}}
                                     <input type="hidden" value="{{$surfing->id}}" name="id">
                                     <input type="hidden" value="task" name="type">
