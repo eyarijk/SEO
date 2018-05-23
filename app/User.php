@@ -89,4 +89,8 @@ class User extends Authenticatable
     {
         return $this->belongsToMany('App\Post', 'post_user');
     }
+    public function referrals()
+    {
+        return $this->hasMany('App\Referral');
+    }
 }

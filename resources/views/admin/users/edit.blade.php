@@ -26,6 +26,12 @@
           </p>
         </div>
         <div class="field">
+          <label for="email" class="label">% referrals:</label>
+          <p class="control">
+            <input type="text" class="input" name="percent_referrals" id="percent_referrals" value="{{$users->percent_referrals}}">
+          </p>
+        </div>
+        <div class="field">
           <label for="password" class="label">Password</label>
           <b-radio-group v-model="password_options">
             <div class="field">

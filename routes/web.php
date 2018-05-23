@@ -1,5 +1,5 @@
 <?php
-
+use  Illuminate\Support\Facades\Cookie;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,9 +12,12 @@
 */
 
 Route::get('/', function () {
-    if(!auth()->id())
+    if(!auth()->id()){
+        if(isset($_GET['ref'])){
+           Cookie::queue(Cookie::make('ref',$_GET['ref']),500000);
+        }
         return view('welcome');
-    else
+    } else
         return redirect()->route('tasks.index');
 });
 
@@ -31,6 +34,8 @@ Route::get('/news','PostController@news')->name('news');
 Route::get('/news/{slug}', 'PostController@post')->name('post');
 
 Route::get('/profile','ProfileController@show')->name('profile')->middleware('auth');
+
+Route::get('/referrals','ReferralsController@index')->name('referrals')->middleware('auth');
 
 Route::get('/chat','ChatController@show')->name('chat')->middleware('auth');
 
@@ -150,3 +155,4 @@ Route::prefix('admin')->middleware('role:superadministrator|administrator|editor
 
 //API
 Route::get('/email/unique','UserController@apiCheckUnique')->name('api.email.unique');
+

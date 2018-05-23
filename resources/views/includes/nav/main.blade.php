@@ -26,7 +26,7 @@
                         <a href="{{route('register')}}" class="navbar-item is-tab" {{ Nav::isRoute('register') }}>Регистрация</a>
                     @else
                         <div class="navbar-item has-dropdown is-hoverable">
-                            <a class="navbar-link"><i class="fa fa-user-circle-o m-r-5"></i> Hey {{Auth::user()->name}} ({{$user->notification()->count()}})</a>
+                            <a class="navbar-link"><i class="fa fa-user-circle-o m-r-5"></i> Hey {{Auth::user()->name}}</a>
                             <div class="navbar-dropdown is-right" >
                                 <a href="/profile" class="navbar-item">
                                     <span class="icon">
@@ -36,12 +36,17 @@
                                 <a href="/notification" class="navbar-item">
                                     <span class="icon">
                                       <i class="fa fa-fw fa-bell m-r-5"></i>
-                                    </span>Oповещения ({{$user->notification()->count()}})
+                                    </span>Oповещения ({{$user->notification->count()}})
                                 </a>
                                 <a href="/manage/tasks" class="navbar-item">
                                     <span class="icon">
                                       <i class="fa fa-cart-plus  m-r-5"></i>
                                     </span>Реклама
+                                </a>
+                                <a href="/referrals" class="navbar-item">
+                                    <span class="icon">
+                                      <i class="fa fa-users  m-r-5"></i>
+                                    </span>Referrals ({{ $user->referrals->count() }})
                                 </a>
                                 <a href="" class="navbar-item">
                                     <span class="icon">

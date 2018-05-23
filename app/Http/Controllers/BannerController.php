@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Context;
 use App\Banner;
-use App\Notification;
+use App\Classes\NotificationSend;
 
 class BannerController extends Controller
 {
@@ -199,11 +199,11 @@ class BannerController extends Controller
         $user->save();
         $banner->save();
 
-        $notification = new Notification;
-        $notification->user_id = auth()->id();
-        $notification->description = 'Пополнение баннера: «'.$banner->name.'»  на : '.intval($request->count).' клик(ов). :) .';
-        $notification->status = 'is-primary';
-        $notification->save();
+        NotificationSend::send(
+            auth()->id(),
+            'Пополнение баннера: «'.$banner->name.'»  на : '.intval($request->count).' клик(ов). :) .',
+            'is-primary'
+            );
 
         return redirect()->route('bannermanage')->withToaststatus('success')->withToast('Баланс пополнен!');
 

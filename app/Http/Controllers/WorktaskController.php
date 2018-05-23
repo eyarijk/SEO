@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\UserRegistered;
 use App\Limit;
 use App\Notification;
+use App\Referral;
 use App\Report;
 use App\Task;
 use App\User;
@@ -118,6 +119,15 @@ class WorktaskController extends Controller
                     $notification->description = 'Оплачено задание: <a href="/tasks/'.$report->task->slug.'">«'.$report->task->name.'»</a> +'.$report->task->salary.' ₽.';
                     $notification->status = 'is-success';
                     $notification->save();
+                    #referral system
+                    $referral = Referral::where('referral_id',$report->user->id)->first();
+                    if (count($referral) > 0){
+                        $bonus = $report->task->salary / 100 * $referral->user->percent_referrals;
+                        $referral->profit += $bonus;
+                        $referral->user->balance += $bonus;
+                        $referral->save();
+                        $referral->user->save();
+                    }
 
                     $report->task->save();
                     $report->user->save();

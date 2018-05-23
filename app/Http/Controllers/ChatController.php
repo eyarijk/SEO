@@ -13,7 +13,7 @@ class ChatController extends Controller
     {
         $user = User::find(auth()->id());
         $contexts = Context::inRandomOrder()->where('is_show',true)->limit(5)->get();
-        $messages = Chat::orderBy('id','desc')->limit(10)->get();
+        $messages = Chat::orderBy('id','desc')->with('user')->limit(10)->get();
         foreach ($messages as $val){
             $message[] = $val;
         }

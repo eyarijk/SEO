@@ -52,7 +52,9 @@
                                 </div>
                                 <hr class="time-hr">
                                 <div>
-                                    Other...
+                                    <p>Ваш % из дохода друзей: {{ $user->percent_referrals }}</p>
+                                    <p>Всего друзей {{ $user->referrals->count() }}</p>
+                                    <p>{{ url('/')  }}?ref={{ $user->id }}</p>
                                 </div>
                             </div>
                             <div class="column m-l-10" style="border: 1px solid #e7e7e7;">

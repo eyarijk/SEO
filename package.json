@@ -19,6 +19,11 @@
     "vue": "^2.5.7"
   },
   "dependencies": {
+    "buefy": "^0.6.2",
+    "bulma": "^0.6.2",
+    "font-awesome": "^4.7.0",
+    "laravel-echo": "^1.3.3",
+    "socket.io": "^2.0.4",
     "toastr": "^2.1.4"
   }
 }

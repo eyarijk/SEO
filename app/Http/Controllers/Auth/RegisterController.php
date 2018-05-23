@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Referral;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use  Illuminate\Support\Facades\Cookie;
 
 class RegisterController extends Controller
 {
@@ -62,12 +64,27 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user =  User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
             'balance' => 0,
             'banned' => false,
         ]);
+
+        $ref = Cookie::get('ref');
+        if (isset($ref)){
+            $userCheck = User::find($ref);
+            if (count($userCheck) > 0){
+                $newReferral = new Referral();
+                $newReferral->referral_id = $user->id;
+                $newReferral->user_id = $userCheck->id;
+                $newReferral->percent = $userCheck->percent_referrals;
+                $newReferral->save();
+
+            }
+        }
+
+        return $user;
     }
 }

@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Report;
 use Illuminate\Http\Request;
 use App\User;
-use App\Task;
+use App\Referral;
 use App\Notification;
 use App\Context;
 
@@ -65,6 +65,14 @@ class ManagetaskController extends Controller
         $available = $report->task->available;
         $report->user->save();
         $report->task->save();
+        $referral = Referral::where('referral_id',$report->user->id)->first();
+        if (count($referral) > 0){
+            $bonus = $report->task->salary / 100 * $referral->user->percent_referrals;
+            $referral->profit += $bonus;
+            $referral->user->balance += $bonus;
+            $referral->save();
+            $referral->user->save();
+        }
         $report->delete();
 
         if($available <= 0){

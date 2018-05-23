@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Referral;
 use Illuminate\Http\Request;
 use App\User;
 use App\Role;
@@ -109,12 +110,13 @@ class UserController extends Controller
     {
       $this->validate($request,[
         'name' => 'required|max:255',
-        'email' => 'required|email|unique:users,email,'.$id
+        'email' => 'required|email|unique:users,email,'.$id,
+        'percent_referrals' => 'numeric',
       ]);
       $user = User::findOrFail($id);
       $user->name = $request->name;
       $user->email = $request->email;
-
+      $user->percent_referrals = $request->percent_referrals;
       if($request->password_options == 'auto'){
         $length = 10;
         $keyspace = '123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM';
